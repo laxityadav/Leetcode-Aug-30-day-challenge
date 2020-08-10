@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    class Point {
+        int y;
+        int val;
+        
+        Point(int y, int val) {
+            this.y = y;
+            this.val = val;
+        }
+    }
+    
+    public List<List<Integer>> verticalTraversal(TreeNode root) {
+        List<List<Integer>> ans = new ArrayList<>();
+        // x co-ordinate, List of nodes
+        Map<Integer, List<Point>> map = new TreeMap<>();
+        helper(root, 0, 0, map);
+        // populate list
+        for(List<Point> list : map.values()) {
+            Collections.sort(list, (a,b) -> a.y == b.y ? a.val - b.val : b.y - a.y);
+            List<Integer> newList = new ArrayList<>();
+            for(Point p : list) {
+                newList.add(p.val);
+            }
+            ans.add(newList);
+        }
+        return ans;
+    }
+    
+    public void helper(TreeNode root, int x, int y, Map<Integer, List<Point>> map) {
+        if(root == null)
+            return;
+        
+        if(map.containsKey(x)) {
+            Point p = new Point(y, root.val);
+            map.get(x).add(p);
+        } else {
+            List<Point> list = new ArrayList<>();
+            Point p = new Point(y, root.val);
+            list.add(p);
+            map.put(x, list);
+        }
+        
+        helper(root.left, x-1, y-1, map);
+        helper(root.right, x+1, y-1, map);
+    }
+}
