@@ -1,0 +1,33 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        int []ch1 = new int[26];
+        int []ch2 = new int[26];
+        for(int i=0;i<s.length();i++) 
+        {
+            char ch = s.charAt(i);
+            if(ch>='a' && ch<='z')
+                ch1[(int)ch-97]++;
+            else
+                ch2[(int)ch-65]++;
+        }
+        int ans=0;
+        boolean is=false;
+        for(int i=0;i<26;i++)
+        {
+            if(ch1[i]%2!=0){
+                is = true;
+                ans+=ch1[i]-1;
+            } 
+            else
+                ans+=ch1[i];
+            if(ch2[i]%2!=0){
+                is = true;
+                ans+=ch2[i]-1;
+            } 
+            else
+                ans+=ch2[i];
+        }
+        if(is) return ans+1;
+        else return ans;
+    }
+}
