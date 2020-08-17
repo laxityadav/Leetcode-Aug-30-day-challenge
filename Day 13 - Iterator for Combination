@@ -1,0 +1,40 @@
+class CombinationIterator {
+    ArrayList<String> list;
+    String str;
+    int len, count;
+    public void dfs(ArrayList<String> list, String str, int len, String req, int l)
+    {
+        if(str.length()+req.length() < len) return;
+        if(l == len){
+            list.add(req);
+            //System.out.println(req);
+            return;
+        }
+        //System.out.println(req);
+        dfs(list, str.substring(1,str.length()), len, req+str.charAt(0), l+1);
+        dfs(list, str.substring(1,str.length()), len, req, l);
+    }
+    public CombinationIterator(String characters, int combinationLength) {
+        list = new ArrayList<>();
+        str = characters;
+        len = combinationLength;
+        count=0;
+        dfs(list, str, len, "", 0);
+    }
+    
+    public String next() {
+        return list.get(count++);
+    }
+    
+    public boolean hasNext() {
+        if(count==list.size()) return false;
+        else return true;
+    }
+}
+
+/**
+ * Your CombinationIterator object will be instantiated and called as such:
+ * CombinationIterator obj = new CombinationIterator(characters, combinationLength);
+ * String param_1 = obj.next();
+ * boolean param_2 = obj.hasNext();
+ */
