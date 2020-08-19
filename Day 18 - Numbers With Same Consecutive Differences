@@ -1,0 +1,33 @@
+class Solution {
+    public void solve(int n, int k, HashSet<Integer> set, int val)
+    {
+        if(n==0){
+            set.add(val);
+            return;
+        } 
+        for(int i=1;i<10;i++)
+        {
+            int prev = val%10;
+            if(val == 0){
+                solve(n-1, k, set, val*10+i);
+            }
+            else{
+                if(prev-k >= 0)
+                    solve(n-1, k, set, val*10+prev-k);
+                if(prev+k <= 9)
+                    solve(n-1, k, set, val*10+prev+k);
+                break;
+            }
+        }
+    }
+    public int[] numsSameConsecDiff(int N, int K) {
+        HashSet<Integer> set = new HashSet<>();
+        if(N==1) set.add(0);
+        solve(N, K, set, 0);
+        int []res = new int[set.size()];
+        int c=0;
+        for(int v:set)
+            res[c++] = v;
+        return res;    
+    }
+}
