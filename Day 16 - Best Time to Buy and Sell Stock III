@@ -1,0 +1,27 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        if(n<2) return 0;
+        int []right = new int[n];
+        int []left = new int[n];
+        int min=prices[0], max=0, ans=0, p1=0, p2=0;
+        for(int i=0;i<n;i++)
+        {
+            if(i>0) p1 = Math.max(p1, right[i-1]);
+            if(i<n-1) p2 = Math.max(p2, left[i+1]);
+            min = Math.min(min, prices[i]);
+            max = Math.max(max, prices[n-i-1]);
+            
+            right[i] = Math.max(prices[i] - min, p1);
+            left[n-i-1] = Math.max(max - prices[n-i-1], p2);            
+        }
+        for(int i=0;i<n;i++)
+            ans = Math.max(ans, left[i]+right[i]);
+        for(int i=0;i<n;i++)
+            System.out.print(left[i]+" ");
+        System.out.println();
+        for(int i=0;i<n;i++)
+            System.out.print(right[i]+" ");
+        return ans;
+    }
+}
