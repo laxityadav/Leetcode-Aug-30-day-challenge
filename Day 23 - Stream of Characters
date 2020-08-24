@@ -1,0 +1,31 @@
+class StreamChecker {
+    HashSet<Character> set;
+    String []words;
+    StringBuffer sBuff;
+    public StreamChecker(String[] words) {
+        set = new HashSet<>();
+        this.words = words;
+        sBuff = new StringBuffer();
+        for(String s:words)
+            set.add(s.charAt(s.length()-1));
+    }
+    
+    public boolean query(char letter) {
+        sBuff.append(""+letter);
+        if(!set.contains(letter)) return false;
+        for(String s:words)
+        {
+            if(s.length() <= sBuff.length()){
+                String tmp = sBuff.substring(sBuff.length()-s.length());
+                if(tmp.equals(s)) return true;
+            }
+        }
+        return false;
+    }
+}
+
+/**
+ * Your StreamChecker object will be instantiated and called as such:
+ * StreamChecker obj = new StreamChecker(words);
+ * boolean param_1 = obj.query(letter);
+ */
