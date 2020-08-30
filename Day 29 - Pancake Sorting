@@ -1,0 +1,39 @@
+class Solution {
+    public int findMax(int []A, int n)
+    {
+        int ind=0, max=A[0];
+        for(int i=1;i<=n;i++)
+        {
+            if(A[i] >= max){
+                ind = i;
+                max = A[i];
+            }
+        }
+        return ind;
+    }
+    public void reverse(int []A, int ind)
+    {
+        for(int i=0;i<=ind/2;i++)
+        {
+            int tmp = A[i];
+            A[i] = A[ind-i];
+            A[ind-i] = tmp;
+        }
+    }
+    public List<Integer> pancakeSort(int[] A) {
+        List<Integer> list = new ArrayList<>();
+        int n = A.length;
+        
+        for(int i=n-1;i>0;i--)
+        {
+            int ind = findMax(A, i);
+            if(ind == i) continue;
+            reverse(A, ind);
+            reverse(A, i);
+            if(ind!=0)  list.add(ind+1);
+            if(i!=0)  list.add(i+1);
+        }
+        //System.out.println(list);
+        return list;
+    }
+}
