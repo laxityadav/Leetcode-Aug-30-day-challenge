@@ -1,0 +1,83 @@
+class Solution {
+    public int largestComponentSize(int[] A) {
+        
+        Map<Integer,Integer> map = new HashMap<>();
+        
+        int max = Arrays.stream(A).max().getAsInt();
+        
+        UF uf = new UF(max);
+        
+        for(int a:A) {
+            for(int num=2;num<=Math.sqrt(a);num++) {
+                
+                if(a%num==0) {
+                    uf.union(a,num);
+                    uf.union(a,a/num);
+                }
+                
+            }
+        }
+        
+        int ans = 0;
+        
+        for(int a: A) {
+            int m = uf.find(a);
+            if(map.containsKey(m)) {
+                map.put(m,map.get(m)+1);
+            } else {
+                map.put(m,1);
+            }
+            
+            ans = Math.max(ans,map.get(m));
+        }
+        
+        return ans;
+    }
+}
+
+
+class UF {
+    int parent[];
+    int rank[];
+    
+    UF(int max) {
+        this.parent = new int[max+1];
+        this.rank = new int[max+1];
+        
+        for(int i=0;i<=max;i++) {
+            parent[i] = i;
+        }
+    }
+    
+    public void union(int u,int v) {
+        
+        int pau = find(u);
+        int pav = find(v);
+        
+        if(pau==pav) {
+            return;
+        } 
+        
+        if(rank[pau]<rank[pav]) {
+            parent[pau]= pav;
+        } else if(rank[pau]>rank[pav]) {
+            parent[pav]= pau;
+        } else {
+            parent[pau] = pav;
+            rank[pav]++;
+        }
+        
+    }
+    
+    
+    public int find(int u) {
+        while(u!=parent[u]) {
+            parent[u]= parent[parent[u]];
+            u= parent[u];
+        }
+        
+        return u;
+    } 
+             
+             
+}       
