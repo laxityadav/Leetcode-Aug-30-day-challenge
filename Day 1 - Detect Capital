@@ -12,7 +12,7 @@ class Solution {
         else{
             for(int i=1;i<n;i++)
                 if(word.charAt(i) >= 'A' && word.charAt(i) <= 'Z') return false;   
-            return true;
+            return  true;
         }
     }
 }
